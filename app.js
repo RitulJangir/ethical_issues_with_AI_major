@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let sortAsc = true;
 
   // Toggle Alert Panel
-  alertButton.addEventListener('click', () => {
-    alertPanel.classList.toggle('visible');
-  });
+  alertButton.addEventListener('click', () => alertPanel.classList.toggle('visible'));
 
   // Mark all as read
   markAllRead.addEventListener('click', () => {
@@ -23,16 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Dismiss or view detail
   alertList.addEventListener('click', e => {
-    const item = e.target.closest('.alert-item');
-    if (!item) return;
+    const item = e.target.closest('.alert-item'); if (!item) return;
     if (e.target.textContent === 'Dismiss') {
-      item.remove();
-      alertCount.textContent = alertList.querySelectorAll('.alert-item').length;
+      item.remove(); alertCount.textContent = alertList.querySelectorAll('.alert-item').length;
     }
     if (e.target.textContent === 'View Details') {
       const title = item.querySelector('.alert-title').textContent;
-      alertPanel.classList.remove('visible');
-      alert(`Navigating to details for alert: "${title}"`);
+      alertPanel.classList.remove('visible'); alert(`Navigating to details for alert: "${title}"`);
     }
   });
 
@@ -40,8 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   searchInput.addEventListener('input', () => {
     const filter = searchInput.value.toLowerCase();
     Array.from(supplierTbody.rows).forEach(row => {
-      const name = row.cells[1].textContent.toLowerCase();
-      row.style.display = name.includes(filter) ? '' : 'none';
+      row.style.display = row.cells[1].textContent.toLowerCase().includes(filter) ? '' : 'none';
     });
   });
 
@@ -52,20 +46,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const aName = a.cells[1].textContent.trim();
       const bName = b.cells[1].textContent.trim();
       return sortAsc ? aName.localeCompare(bName) : bName.localeCompare(aName);
-    });
-    sortAsc = !sortAsc;
-    rows.forEach(r => supplierTbody.appendChild(r));
+    }); sortAsc = !sortAsc; rows.forEach(r => supplierTbody.appendChild(r));
   });
 
   // Re-run full scan
   scanBtn.addEventListener('click', () => {
-    scanBtn.disabled = true;
-    scanBtn.textContent = 'Scanning...';
-    setTimeout(() => {
-      scanBtn.disabled = false;
-      scanBtn.textContent = 'Re-run Full Scan';
-      alert('Full scan completed. Metrics updated.');
-    }, 2000);
+    scanBtn.disabled = true; scanBtn.textContent = 'Scanning...';
+    setTimeout(() => { scanBtn.disabled = false; scanBtn.textContent = 'Re-run Full Scan'; alert('Full scan completed. Metrics updated.'); }, 2000);
   });
-
 });
