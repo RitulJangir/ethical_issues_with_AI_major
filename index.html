@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SupplySight Dashboard</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Add any icon libraries if needed -->
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -75,7 +74,6 @@
           </tr>
         </thead>
         <tbody id="supplier-tbody">
-          <!-- Dynamic rows go here -->
           <tr>
             <td><span class="risk-icon risk-high"></span></td>
             <td><a href="#" class="supplier-link">Supplier A</a></td>
@@ -92,14 +90,13 @@
     </section>
   </main>
 
-  <!-- Alert Panel (hidden by default) -->
-  <aside id="alert-panel" class="alert-panel hidden">
+  <!-- Alert Panel (initially hidden via transform) -->
+  <aside id="alert-panel" class="alert-panel">
     <header>
       <h2>Alerts</h2>
       <button id="mark-all-read" class="btn-link">Mark all as read</button>
     </header>
-    <ul id="alert-list">
-      <!-- Dynamic alert items -->
+    <ul id="alert-list" class="alert-list">
       <li class="alert-item alert-high">
         <span class="alert-icon">❗</span>
         <div class="alert-content">
@@ -115,6 +112,6 @@
     </ul>
   </aside>
 
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
