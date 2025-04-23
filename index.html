@@ -4,7 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SupplySight Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Embedded CSS */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f5f7fa; color: #333; }
+    .navbar { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: .75rem 1.5rem; border-bottom: 1px solid #e0e0e0; }
+    .logo { font-size: 1.5rem; font-weight: bold; color: #007acc; text-decoration: none; }
+    .dropdown { margin-right: 1rem; padding: .4rem; border: 1px solid #ccc; border-radius: 4px; }
+    .user-menu { display: inline-flex; align-items: center; margin-right: 1rem; }
+    .user-avatar { width:32px; height:32px; border-radius:50%; margin-right:.5rem; }
+    .icon-button { background: none; border: none; font-size:1.2rem; position:relative; cursor:pointer; }
+    .badge { background:#e53935; color:#fff; border-radius:50%; padding:.1rem .4rem; font-size:.75rem; position:absolute; top:-5px; right:-10px; }
+    .container { max-width:1200px; margin:2rem auto; padding:0 1rem; }
+    .kpi-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+    .card { background:#fff; border-radius:8px; padding:1rem; box-shadow:0 1px 3px rgba(0,0,0,0.1); text-align:center; }
+    .card h3 { font-size:1rem; margin-bottom:.5rem; color:#555; }
+    .card p { font-size:1.75rem; font-weight:bold; }
+    .quick-actions { display:flex; gap:1rem; margin-bottom:2rem; }
+    .btn-primary, .btn-secondary { padding:.6rem 1.2rem; border:none; border-radius:4px; cursor:pointer; font-size:.95rem; }
+    .btn-primary { background:#007acc; color:#fff; }
+    .btn-secondary { background:#e0e0e0; color:#333; }
+    .table-header { display:flex; justify-content:space-between; margin-bottom:.5rem; }
+    .search-input { flex:1; padding:.5rem; border:1px solid #ccc; border-radius:4px; }
+    .btn-icon { margin-left:.5rem; background:none; border:none; font-size:1.2rem; cursor:pointer; }
+    .supplier-table { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.1); }
+    .supplier-table th, .supplier-table td { padding:.75rem; text-align:left; border-bottom:1px solid #e0e0e0; }
+    .supplier-table th { background:#fafafa; font-weight:600; }
+    .supplier-table tbody tr:hover { background:#f1f5f9; }
+    .risk-icon { display:inline-block; width:12px; height:12px; border-radius:50%; }
+    .risk-high { background:#e53935; }
+    .risk-medium { background:#fbc02d; }
+    .risk-low { background:#43a047; }
+    .supplier-link { color:#007acc; text-decoration:none; }
+    .btn-detail { padding:.4rem .8rem; background:#007acc; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+    .sparkline { font-family:monospace; margin-left:.5rem; }
+    .alert-panel { position:fixed; top:0; right:0; width:360px; height:100%; background:#fff; box-shadow:-2px 0 5px rgba(0,0,0,0.1); transform:translateX(100%); transition:transform .3s ease; z-index:1000; padding:1rem; }
+    .alert-panel.visible { transform:translateX(0); }
+    .alert-panel header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+    .btn-link { background:none; border:none; color:#007acc; cursor:pointer; font-size:.9rem; }
+    .alert-list { list-style:none; overflow-y:auto; max-height:calc(100% - 4rem); }
+    .alert-item { display:flex; align-items:flex-start; padding:.75rem 0; border-bottom:1px solid #e0e0e0; }
+    .alert-item:last-child { border-bottom:none; }
+    .alert-icon { font-size:1.5rem; margin-right:.75rem; }
+    .alert-high .alert-icon { color:#e53935; }
+    .alert-medium .alert-icon { color:#fbc02d; }
+    .alert-content { flex:1; }
+    .alert-title { font-weight:600; }
+    .alert-time { font-size:.8rem; color:#777; margin:.25rem 0; }
+    .alert-actions button { background:none; border:none; color:#007acc; cursor:pointer; font-size:.85rem; margin-left:.5rem; }
+  </style>
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -22,41 +70,22 @@
         <img src="profile-placeholder.png" alt="User" class="user-avatar">
         <span class="username">Username</span>
       </div>
-      <button id="alert-button" class="icon-button">
-        🔔<span id="alert-count" class="badge">3</span>
-      </button>
+      <button id="alert-button" class="icon-button">🔔<span id="alert-count" class="badge">3</span></button>
     </div>
   </nav>
 
   <!-- Main Content -->
   <main class="container">
-    <!-- KPI Cards -->
     <section class="kpi-cards">
-      <div class="card">
-        <h3>Total Suppliers</h3>
-        <p id="total-suppliers">120</p>
-      </div>
-      <div class="card">
-        <h3>High-Risk Count</h3>
-        <p id="high-risk-count">8</p>
-      </div>
-      <div class="card">
-        <h3>New Alerts</h3>
-        <p id="new-alerts">5</p>
-      </div>
-      <div class="card">
-        <h3>Average Regional Risk</h3>
-        <p id="avg-risk">47</p>
-      </div>
+      <div class="card"><h3>Total Suppliers</h3><p id="total-suppliers">120</p></div>
+      <div class="card"><h3>High-Risk Count</h3><p id="high-risk-count">8</p></div>
+      <div class="card"><h3>New Alerts</h3><p id="new-alerts">5</p></div>
+      <div class="card"><h3>Average Regional Risk</h3><p id="avg-risk">47</p></div>
     </section>
-
-    <!-- Quick Actions -->
     <section class="quick-actions">
       <button id="btn-drill-alerts" class="btn-primary">Drill into Alerts</button>
       <button id="btn-full-scan" class="btn-secondary">Re-run Full Scan</button>
     </section>
-
-    <!-- Supplier Table -->
     <section class="supplier-table-section">
       <div class="table-header">
         <input type="text" id="supplier-search" placeholder="Search suppliers..." class="search-input">
@@ -64,14 +93,7 @@
       </div>
       <table class="supplier-table">
         <thead>
-          <tr>
-            <th>Risk</th>
-            <th>Name</th>
-            <th>Region</th>
-            <th>Last Updated</th>
-            <th>Score</th>
-            <th>Action</th>
-          </tr>
+          <tr><th>Risk</th><th>Name</th><th>Region</th><th>Last Updated</th><th>Score</th><th>Action</th></tr>
         </thead>
         <tbody id="supplier-tbody">
           <tr>
@@ -79,10 +101,7 @@
             <td><a href="#" class="supplier-link">Supplier A</a></td>
             <td>Region X</td>
             <td>2025-04-22 14:00</td>
-            <td>
-              <span class="score-number">82</span>
-              <span class="sparkline">▇▆▇▆▅</span>
-            </td>
+            <td><span class="score-number">82</span><span class="sparkline">▇▆▇▆▅</span></td>
             <td><button class="btn-detail">View Details</button></td>
           </tr>
         </tbody>
@@ -90,12 +109,9 @@
     </section>
   </main>
 
-  <!-- Alert Panel (initially hidden via transform) -->
+  <!-- Alert Panel -->
   <aside id="alert-panel" class="alert-panel">
-    <header>
-      <h2>Alerts</h2>
-      <button id="mark-all-read" class="btn-link">Mark all as read</button>
-    </header>
+    <header><h2>Alerts</h2><button id="mark-all-read" class="btn-link">Mark all as read</button></header>
     <ul id="alert-list" class="alert-list">
       <li class="alert-item alert-high">
         <span class="alert-icon">❗</span>
@@ -112,6 +128,58 @@
     </ul>
   </aside>
 
-  <script src="app.js" defer></script>
+  <script>
+    // Embedded JS
+    document.addEventListener('DOMContentLoaded', () => {
+      const alertPanel = document.getElementById('alert-panel');
+      const alertButton = document.getElementById('alert-button');
+      const markAllRead = document.getElementById('mark-all-read');
+      const alertCount  = document.getElementById('alert-count');
+      const alertList   = document.getElementById('alert-list');
+      const btnDrill    = document.getElementById('btn-drill-alerts');
+      const btnScan     = document.getElementById('btn-full-scan');
+      const searchInput = document.getElementById('supplier-search');
+      const supplierTbody = document.getElementById('supplier-tbody');
+      const sortButton  = document.getElementById('sort-button');
+      let sortAsc = true;
+      alertButton.addEventListener('click', () => alertPanel.classList.toggle('visible'));
+      btnDrill.addEventListener('click', () => alertPanel.classList.add('visible'));
+      markAllRead.addEventListener('click', () => {
+        alertList.innerHTML = '';
+        alertCount.textContent = '0';
+      });
+      alertList.addEventListener('click', e => {
+        const item = e.target.closest('.alert-item'); if (!item) return;
+        if (e.target.textContent === 'Dismiss') {
+          item.remove(); alertCount.textContent = alertList.querySelectorAll('.alert-item').length;
+        }
+        if (e.target.textContent === 'View Details') {
+          const title = item.querySelector('.alert-title').textContent;
+          alertPanel.classList.remove('visible');
+          alert(`Navigating to details for alert: "${title}"`);
+        }
+      });
+      searchInput.addEventListener('input', () => {
+        const filter = searchInput.value.toLowerCase();
+        Array.from(supplierTbody.rows).forEach(row => {
+          row.style.display = row.cells[1].textContent.toLowerCase().includes(filter) ? '' : 'none';
+        });
+      });
+      sortButton.addEventListener('click', () => {
+        const rows = Array.from(supplierTbody.querySelectorAll('tr'));
+        rows.sort((a,b) => sortAsc ? a.cells[1].textContent.localeCompare(b.cells[1].textContent) : b.cells[1].textContent.localeCompare(a.cells[1].textContent));
+        sortAsc = !sortAsc; rows.forEach(r => supplierTbody.appendChild(r));
+      });
+      btnScan.addEventListener('click', () => {
+        btnScan.disabled = true; btnScan.textContent = 'Scanning...';
+        setTimeout(() => { btnScan.disabled = false; btnScan.textContent = 'Re-run Full Scan'; alert('Full scan completed.'); },2000);
+      });
+      supplierTbody.addEventListener('click', e => {
+        if(e.target.classList.contains('btn-detail')) {
+          alert(`Navigating to details for "${e.target.closest('tr').cells[1].textContent}"`);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
