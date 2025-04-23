@@ -4,50 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SupplySight Dashboard</title>
-  <!-- External CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="flex">
+    <!-- Sidebar -->
     <nav class="sidebar">
-      <a href="#" class="active"><i>🏠</i>Dashboard</a>
-      <a href="#"><i>🗂️</i>Suppliers</a>
-      <a href="#"><i>📊</i>Risk Analysis</a>
-      <a href="#"><i>🔔</i>Alerts</a>
-      <a href="#"><i>⚙️</i>Settings</a>
+      <a href="#" class="active">🏠 Dashboard</a>
+      <a href="#">📂 Suppliers</a>
+      <a href="#">📊 Risk Analysis</a>
+      <a href="#">🔔 Alerts</a>
+      <a href="#">⚙️ Settings</a>
     </nav>
+
+    <!-- Main Content -->
     <div class="main-content">
+      <!-- Top Navbar -->
       <nav class="navbar">
         <span class="logo">SupplySight</span>
-        <div class="flex nav-actions">
-          <select class="dropdown">
+        <div class="nav-actions flex">
+          <select id="region-filter" class="dropdown">
             <option>All Regions</option>
             <option>North America</option>
             <option>Europe</option>
           </select>
-          <button class="btn-secondary" id="scan-btn">Re-run Full Scan</button>
-          <div class="user-menu">
+          <button id="scan-btn" class="btn-secondary">Re-run Full Scan</button>
+          <div class="user-menu flex">
             <img src="profile-placeholder.png" alt="User" class="user-avatar">
             <span>Admin</span>
           </div>
           <button id="alert-button" class="icon-button">🔔<span id="alert-count" class="badge">3</span></button>
         </div>
       </nav>
+
+      <!-- Dashboard Content -->
       <main class="container">
+        <!-- Hero Banner -->
         <div class="hero"></div>
+
+        <!-- KPI Cards -->
         <section class="kpi-cards">
           <div class="card"><h3>Total Suppliers</h3><p id="total-suppliers">156</p></div>
           <div class="card"><h3>High-Risk</h3><p id="high-risk">23</p></div>
           <div class="card"><h3>New Alerts</h3><p id="new-alerts">8</p></div>
         </section>
+
+        <!-- Supplier Table -->
         <section class="supplier-table-section">
-          <div class="table-header">
+          <div class="table-header flex">
             <input type="text" id="supplier-search" placeholder="Search suppliers..." class="search-input">
             <button id="sort-button" class="btn-icon">⇅</button>
           </div>
           <table class="supplier-table">
             <thead>
-              <tr><th>Risk</th><th>Name</th><th>Region</th><th>Last Updated</th><th>Score</th><th>Action</th></tr>
+              <tr>
+                <th>Risk</th>
+                <th>Name</th>
+                <th>Region</th>
+                <th>Last Updated</th>
+                <th>Score</th>
+                <th>Action</th>
+              </tr>
             </thead>
             <tbody id="supplier-tbody">
               <tr>
@@ -62,17 +79,22 @@
           </table>
         </section>
       </main>
+
+      <!-- Alert Panel -->
       <aside id="alert-panel" class="alert-panel">
-        <header><h2>Alerts</h2><button id="mark-all-read" class="btn-link">Mark all as read</button></header>
+        <header class="flex">
+          <h2>Alerts</h2>
+          <button id="mark-all-read" class="btn-link">Mark all as read</button>
+        </header>
         <ul class="alert-list" id="alert-list">
-          <li class="alert-item alert-high">
+          <li class="alert-item alert-high flex">
             <span class="alert-icon">❗</span>
             <div class="alert-content">
               <p class="alert-title">Supplier X risk surged to 78</p>
               <p class="alert-time">2 h ago</p>
               <p class="alert-desc">Night-light surge +40%</p>
             </div>
-            <div class="alert-actions">
+            <div class="alert-actions flex">
               <button class="btn-link">View Details</button>
               <button class="btn-link">Dismiss</button>
             </div>
@@ -81,7 +103,8 @@
       </aside>
     </div>
   </div>
-  <!-- External JS -->
+
+  <!-- Scripts -->
   <script src="app.js" defer></script>
 </body>
 </html>
