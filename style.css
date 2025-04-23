@@ -1,18 +1,31 @@
-/* Reset & base */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* style.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   display: flex;
-  font-family: sans-serif;
-  background: #121212;
-  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   height: 100vh;
   overflow: hidden;
 }
 
-/* Sidebar */
+/* Utility for hidden labels */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  border: 0; clip: rect(0 0 0 0);
+  white-space: nowrap; overflow: hidden;
+}
+
+/* SIDEBAR */
 .sidebar {
   width: 220px;
-  background: #1e1e1e;
+  background: var(--surface);
   display: flex;
   flex-direction: column;
 }
@@ -30,52 +43,53 @@ body {
 }
 .sidebar nav ul li.active,
 .sidebar nav ul li:hover {
-  background: #2a2a2a;
+  background: var(--surface-alt);
 }
 .sidebar nav ul li a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Main content */
+/* MAIN AREA */
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: auto;
 }
+
+/* HEADER */
 header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  background: #1f1f1f;
+  align-items: center;
+  background: var(--surface);
+  padding: 0.75rem 1rem;
 }
-header .left select {
-  padding: 0.4rem;
-  background: #2a2a2a;
-  border: none;
-  color: #e0e0e0;
+.header-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
-header .center button {
-  padding: 0.5rem 1rem;
-  background: #333;
+header select,
+header button {
+  background: var(--surface-alt);
   border: none;
-  color: #e0e0e0;
-  cursor: pointer;
+  color: var(--text);
+  padding: 0.5rem;
   border-radius: 4px;
+  cursor: pointer;
 }
-header .center button:hover {
-  background: #444;
+header button#theme-toggle {
+  font-size: 1.2rem;
 }
 header .avatars img {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  margin-left: 0.5rem;
 }
 
-/* Cards */
+/* KPI CARDS */
 .cards {
   display: flex;
   gap: 1rem;
@@ -83,55 +97,95 @@ header .avatars img {
 }
 .card {
   flex: 1;
-  background: #1e1e1e;
-  padding: 1rem;
+  background: var(--surface);
   border-radius: 8px;
+  padding: 1rem;
 }
 .card .label {
   font-size: 0.9rem;
-  color: #aaa;
+  color: var(--text-alt);
 }
 .card .number {
   font-size: 2rem;
   font-weight: bold;
 }
-.green { color: #4caf50; }
-.red   { color: #f44336; }
-.orange{ color: #ff9800; }
+.primary  { color: var(--primary); }
+.warning  { color: var(--warning); }
+.danger   { color: var(--danger); }
 
-/* Table section */
-.table-section {
+/* TABLE SECTION */
+.table-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
 }
-.table-section h2 {
-  margin-bottom: 0.5rem;
+.table-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
-.table-section table {
+.table-controls input,
+.table-controls select {
+  background: var(--surface-alt);
+  border: none;
+  color: var(--text);
+  padding: 0.5rem;
+  border-radius: 4px;
+  flex: 1;
+}
+.table-controls select {
+  flex: 0 0 150px;
+}
+
+/* TABLE STYLING */
+table {
   width: 100%;
   border-collapse: collapse;
+  background: var(--surface);
+  border-radius: 8px;
+  overflow: hidden;
 }
-.table-section th,
-.table-section td {
+thead {
+  background: var(--surface-alt);
+}
+th, td {
   padding: 0.75rem;
   text-align: left;
 }
-.table-section thead {
-  background: #2a2a2a;
+th {
+  cursor: pointer;
 }
-.table-section tr {
-  border-bottom: 1px solid #333;
+tr + tr {
+  border-top: 1px solid var(--surface);
 }
-.table-section tr:hover {
-  background: #2a2a2a;
+tr:hover {
+  background: var(--surface-alt);
 }
-.table-section .btn {
+.btn {
   padding: 0.3rem 0.6rem;
-  background: #2f2f2f;
+  background: var(--surface-alt);
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  color: #e0e0e0;
+  color: var(--text);
 }
-.table-section .btn:hover {
-  background: #3f3f3f;
+.btn:hover {
+  background: var(--surface);
+}
+
+/* SPARKLINE PLACEHOLDER */
+td .sparkline {
+  display: inline-block;
+  width: 50px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+/* RESPONSIVE BREAKPOINT */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  body { flex-direction: column; }
+  header { flex-wrap: wrap; }
+  .cards { flex-direction: column; }
 }
