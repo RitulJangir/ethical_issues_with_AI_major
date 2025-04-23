@@ -1,110 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SupplySight Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
 </head>
 <body>
-  <div class="flex">
-    <!-- Sidebar -->
-    <nav class="sidebar">
-      <a href="#" class="active">🏠 Dashboard</a>
-      <a href="#">📂 Suppliers</a>
-      <a href="#">📊 Risk Analysis</a>
-      <a href="#">🔔 Alerts</a>
-      <a href="#">⚙️ Settings</a>
+  <div class="sidebar">
+    <div class="logo">SupplySight</div>
+    <nav>
+      <ul>
+        <li class="active"><a href="#">Dashboard</a></li>
+        <li><a href="#">Suppliers</a></li>
+        <li><a href="#">Risk Analysis</a></li>
+        <li><a href="#">Alerts</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Settings</a></li>
+      </ul>
     </nav>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- Top Navbar -->
-      <nav class="navbar">
-        <span class="logo">SupplySight</span>
-        <div class="nav-actions flex">
-          <select id="region-filter" class="dropdown">
-            <option>All Regions</option>
-            <option>North America</option>
-            <option>Europe</option>
-          </select>
-          <button id="scan-btn" class="btn-secondary">Re-run Full Scan</button>
-          <div class="user-menu flex">
-            <img src="profile-placeholder.png" alt="User" class="user-avatar">
-            <span>Admin</span>
-          </div>
-          <button id="alert-button" class="icon-button">🔔<span id="alert-count" class="badge">3</span></button>
-        </div>
-      </nav>
-
-      <!-- Dashboard Content -->
-      <main class="container">
-        <!-- Hero Banner -->
-        <div class="hero"></div>
-
-        <!-- KPI Cards -->
-        <section class="kpi-cards">
-          <div class="card"><h3>Total Suppliers</h3><p id="total-suppliers">156</p></div>
-          <div class="card"><h3>High-Risk</h3><p id="high-risk">23</p></div>
-          <div class="card"><h3>New Alerts</h3><p id="new-alerts">8</p></div>
-        </section>
-
-        <!-- Supplier Table -->
-        <section class="supplier-table-section">
-          <div class="table-header flex">
-            <input type="text" id="supplier-search" placeholder="Search suppliers..." class="search-input">
-            <button id="sort-button" class="btn-icon">⇅</button>
-          </div>
-          <table class="supplier-table">
-            <thead>
-              <tr>
-                <th>Risk</th>
-                <th>Name</th>
-                <th>Region</th>
-                <th>Last Updated</th>
-                <th>Score</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="supplier-tbody">
-              <tr>
-                <td><span class="risk-icon risk-high"></span></td>
-                <td><a href="#" class="supplier-link">Acme Corp</a></td>
-                <td>North America</td>
-                <td>2024-01-15</td>
-                <td>85</td>
-                <td><button class="btn-detail">View Details</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-      </main>
-
-      <!-- Alert Panel -->
-      <aside id="alert-panel" class="alert-panel">
-        <header class="flex">
-          <h2>Alerts</h2>
-          <button id="mark-all-read" class="btn-link">Mark all as read</button>
-        </header>
-        <ul class="alert-list" id="alert-list">
-          <li class="alert-item alert-high flex">
-            <span class="alert-icon">❗</span>
-            <div class="alert-content">
-              <p class="alert-title">Supplier X risk surged to 78</p>
-              <p class="alert-time">2 h ago</p>
-              <p class="alert-desc">Night-light surge +40%</p>
-            </div>
-            <div class="alert-actions flex">
-              <button class="btn-link">View Details</button>
-              <button class="btn-link">Dismiss</button>
-            </div>
-          </li>
-        </ul>
-      </aside>
-    </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="app.js" defer></script>
+  <div class="main">
+    <header>
+      <div class="left">
+        <select id="region-select">
+          <option>All Regions</option>
+          <option>North America</option>
+          <option>Europe</option>
+          <option>Asia</option>
+        </select>
+      </div>
+      <div class="center">
+        <button id="rerun-scan">Re-run Full Scan</button>
+      </div>
+      <div class="right avatars">
+        <img src="https://via.placeholder.com/32" alt="User 1" />
+        <img src="https://via.placeholder.com/32" alt="User 2" />
+      </div>
+    </header>
+
+    <section class="cards">
+      <div class="card">
+        <div class="label">Total Suppliers</div>
+        <div class="number green" id="total-suppliers">--</div>
+      </div>
+      <div class="card">
+        <div class="label">High Risk Suppliers</div>
+        <div class="number red" id="high-risk">--</div>
+      </div>
+      <div class="card">
+        <div class="label">New Alerts</div>
+        <div class="number orange" id="new-alerts">--</div>
+      </div>
+    </section>
+
+    <section class="table-section">
+      <h2>Supplier Overview</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Supplier Name</th>
+            <th>Region</th>
+            <th>Last Updated</th>
+            <th>Risk Score</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="supplier-table">
+          <!-- rows injected by JS -->
+        </tbody>
+      </table>
+    </section>
+  </div>
 </body>
 </html>
